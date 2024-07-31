@@ -13,15 +13,20 @@ import bcrypt from 'bcrypt-nodejs';
 import cors from 'cors';
 import knex from 'knex';
 
+// const db = knex({
+//     client: 'pg',
+//     connection: {
+//         host: '127.0.0.1',
+//         port: 5432,
+//         user: 'kabirsharma',
+//         password: '',
+//         database: 'smart-brain',
+//     },
+// });
 const db = knex({
     client: 'pg',
-    connection: {
-        host: '127.0.0.1',
-        port: 5432,
-        user: 'kabirsharma',
-        password: '',
-        database: 'smart-brain',
-    },
+    connection: process.env.DATABASE_URL,
+    ssl: { rejectUnauthorized: false }
 });
 
 db.select('*').from('users').then(data => {
@@ -183,10 +188,14 @@ app.put('/image', (req, res) => {
       .catch(err => res.status(400).json('Unable to get entries'));
   });
 
-app.listen(3001, () => {
-    console.log('app is running on port 3001!');
-});
+// app.listen(3001, () => {
+//     console.log('app is running on port 3001!');
+// });
 
+const port = process.env.PORT || 3001;
+   app.listen(port, () => {
+       console.log(`app is running on port ${port}!`);
+   });
 /*
 --endpoints--
 / -> GET -> returns all users
