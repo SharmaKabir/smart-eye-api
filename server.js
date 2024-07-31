@@ -36,7 +36,9 @@ db.select('*').from('users').then(data => {
 const app = express();
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+    origin: 'https://smart-eye-api-production.up.railway.app'
+  }));
 
 const database = {
     users: [
